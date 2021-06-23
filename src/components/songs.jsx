@@ -1,10 +1,14 @@
 import React, { Component } from "react";
 import { getSongs } from "../services/fakeSongService";
 import Like from "./common/like";
+import Pagination from "./common/pagination";
+import { paginate } from "../utils/paginate";
 
 class Songs extends Component {
   state = {
     songs: getSongs(),
+    pageSize: 4,
+    currentPage: 1,
   };
 
   handleDelete = (song) => {
@@ -20,9 +24,18 @@ class Songs extends Component {
     this.setState({ songs });
   };
 
+  handlePageChange = (page) => {
+    this.setState({ currentPage: page });
+  };
+
   render() {
     const { length: songCount } = this.state.songs;
+    const { pageSize, currentPage, songs: allSongs } = this.state;
+
     if (songCount === 0) return <h2>There are no songs in the database</h2>;
+
+    const songs = paginate(allSongs, currentPage, pageSize);
+
     return (
       <React.Fragment>
         <p className="mb-1 pb-1 pt-1 mx-auto">
@@ -40,7 +53,7 @@ class Songs extends Component {
             </tr>
           </thead>
           <tbody>
-            {this.state.songs.map((song) => (
+            {songs.map((song) => (
               <tr key={song._id}>
                 <td>{song.title}</td>
                 <td>{song.artist}</td>
@@ -67,6 +80,12 @@ class Songs extends Component {
             ))}
           </tbody>
         </table>
+        <Pagination
+          onPageChange={this.handlePageChange}
+          pageSize={pageSize}
+          itemsCount={songCount}
+          currentPage={currentPage}
+        />
       </React.Fragment>
     );
   }

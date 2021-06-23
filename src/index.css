@@ -18,3 +18,7 @@ p {
   background-color: rgb(34, 34, 34);
   color: whitesmoke;
 }
+
+.pagination {
+  margin: 0 0 0 10px;
+}
