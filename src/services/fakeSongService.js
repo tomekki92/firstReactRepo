@@ -5,6 +5,7 @@ const songs = [
     artist: "Motionless In White",
     album: "Disguise",
     genre: "Metalcore",
+    liked: true,
   },
   {
     _id: "5b21ca3eeb7f6fbccd471816",

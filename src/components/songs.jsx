@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { getSongs } from "../services/fakeSongService";
+import Like from "./common/like";
 
 class Songs extends Component {
   state = {
@@ -8,6 +9,14 @@ class Songs extends Component {
 
   handleDelete = (song) => {
     const songs = this.state.songs.filter((s) => s._id !== song._id);
+    this.setState({ songs });
+  };
+
+  handleLike = (song) => {
+    const songs = [...this.state.songs];
+    const index = songs.indexOf(song);
+    songs[index] = { ...songs[index] };
+    songs[index].liked = !songs[index].liked;
     this.setState({ songs });
   };
 
@@ -27,6 +36,7 @@ class Songs extends Component {
               <th>Album</th>
               <th>Genre</th>
               <th></th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -36,6 +46,13 @@ class Songs extends Component {
                 <td>{song.artist}</td>
                 <td>{song.album}</td>
                 <td>{song.genre}</td>
+                <td>
+                  <Like
+                    key={song._id}
+                    onLike={() => this.handleLike(song)}
+                    liked={song.liked}
+                  />
+                </td>
                 <td>
                   <button
                     onClick={() => {
