@@ -16,7 +16,7 @@ const Pagination = (props) => {
           >
             <button
               onClick={() => onPageChange(p)}
-              className="btn btn-secondary"
+              className="btn btn-secondary m-1"
             >
               {p}
             </button>
